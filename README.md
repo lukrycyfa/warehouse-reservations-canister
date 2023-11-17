@@ -1,6 +1,6 @@
 # warehouse_reservations_canister
 
-- On this canister developed to run on the ICP (Internet Computer Protocol) are implemented functions and utilities written in Rust, Rust-CDK (Canister Development Kit *ic_cdk), other libraries, and a CRUD modal. Meant to assist manufacturing or wholesale companies in managing serving available goods for reservations to their clients needing reservations on goods, with these reservations having a valid period of which they are paired with these clients, and depends on the client's response to the manufacturer or the wholesale company (i.e could be a payment process implemented on another canister) for this reservations to be served.
+- On this canister developed to run on the ICP (Internet Computer Protocol) are implemented functions and utilities written in Rust, Rust-CDK (Canister Development Kit *ic_cdk), other libraries, and a CRUD modal. Meant to assist manufacturing or wholesale companies in managing and serving available goods for reservations to their clients needing reservations on goods, with these reservations having a valid period of which they are paired with these clients, and depends on the client's response to the manufacturer or the wholesale company (i.e could be a payment process implemented on another canister) for this reservations to be served.
 
 ## Guide on Deploying and Testing the canister 🛠.
 
