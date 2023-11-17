@@ -1,0 +1,102 @@
+type Client = record {
+  id : nat64;
+  updated_at : opt nat64;
+  reservations : vec Reservation;
+  created_at : nat64;
+  client_address : opt principal;
+  first_name : text;
+  last_name : text;
+};
+type ClientPayload = record { first_name : text; last_name : text };
+type Error = variant {
+  NotFound : record { msg : text };
+  InvalidValidation : record { msg : text };
+};
+type Product = record {
+  id : nat64;
+  updated_at : opt nat64;
+  maximum_reservation : nat64;
+  price_per_item : nat64;
+  reservations : nat64;
+  name : text;
+  reservations_serve : nat64;
+  description : text;
+  created_at : nat64;
+  minimum_reservation : nat64;
+  r_requests : vec Reservation;
+  reservations_requests : nat64;
+  reservation_valid_duration : nat64;
+};
+type ProductPayload = record {
+  maximum_reservation : nat64;
+  price_per_item : nat64;
+  name : text;
+  description : text;
+  minimum_reservation : nat64;
+  reservation_valid_duration : nat64;
+};
+type ProvisionPayload = record { reservations : nat64 };
+type Reservation = record {
+  id : nat64;
+  client : text;
+  updated_at : opt nat64;
+  product_id : nat64;
+  description : text;
+  reserve : nat64;
+  total_cost : nat64;
+  created_at : nat64;
+  valid_duration_at_creation : nat64;
+  serve : bool;
+  invalid_at : nat64;
+  client_address : opt principal;
+};
+type ReservationPayload = record { description : text; reserve : nat64 };
+type Result = variant { Ok : Client; Err : Error };
+type Result_1 = variant { Ok : Product; Err : Error };
+type Result_2 = variant { Ok : Staff; Err : Error };
+type Result_3 = variant { Ok : Reservation; Err : Error };
+type Result_4 = variant { Ok : vec record { nat64; Client }; Err : Error };
+type Result_5 = variant { Ok : vec record { nat64; Reservation }; Err : Error };
+type Result_6 = variant { Ok : vec record { nat64; Staff }; Err : Error };
+type Roles = variant { Specialist };
+type Staff = record {
+  id : nat64;
+  updated_at : opt nat64;
+  role : opt Roles;
+  created_at : nat64;
+  staff_address : opt principal;
+  first_name : text;
+  last_name : text;
+};
+type StaffPayload = record {
+  staff_address : opt principal;
+  first_name : text;
+  last_name : text;
+};
+service : () -> {
+  add_client : (ClientPayload) -> (Result);
+  add_product : (nat64, ProductPayload) -> (Result_1);
+  add_staff : (StaffPayload) -> (Result_2);
+  cancle_reservation : (nat64, nat64) -> (Result_3);
+  delete_client : (nat64) -> (Result);
+  delete_product : (nat64, nat64) -> (Result_1);
+  delete_reservation : (nat64, nat64) -> (Result_3);
+  delete_staff : (nat64) -> (Result_2);
+  get_caller : () -> (principal) query;
+  get_client : (nat64) -> (Result) query;
+  get_clients : (nat64) -> (Result_4) query;
+  get_owner : () -> (principal) query;
+  get_product : (nat64, nat64) -> (Result_1) query;
+  get_products : () -> (vec record { nat64; Product }) query;
+  get_reservation : (nat64) -> (Result_3) query;
+  get_reservations : (nat64) -> (Result_5) query;
+  get_staff : (nat64) -> (Result_2) query;
+  get_staffs : (nat64) -> (Result_6) query;
+  make_reservations : (nat64, nat64, ReservationPayload) -> (Result_3);
+  provision_reservations : (nat64, nat64, ProvisionPayload) -> (Result_1);
+  serve_reservation : (nat64, nat64, nat64) -> (Result_3);
+  update_client : (nat64, ClientPayload) -> (Result);
+  update_product : (nat64, nat64, ProductPayload) -> (Result_1);
+  update_profile : (nat64, StaffPayload) -> (Result_2);
+  update_reservation : (nat64, nat64, ReservationPayload) -> (Result_3);
+}

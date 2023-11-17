@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "canisters": {
+    "warehouse_reservations_canister": {
+      "type": "rust",
+      "package": "warehouse_reservations_canister",
+      "candid": "src/warehouse_reservations_canister/warehouse_reservations_canister.did"
+    }
+  },
+  "output_env_file": ".env"
+}
