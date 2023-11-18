@@ -8,11 +8,10 @@
 
 * [node.js](https://nodejs.org/en/download). -v18 or >.
 
-* Download the canister contract from the provided repository 
+* Clone the canister contract from the provided repository 
 ```bash
 $ git clone https://github.com/lukrycyfa/warehouse-reservations-canister.git
 ```
-
 * rustc 1.64 or higher
 ```bash
 $ curl --proto '=https' --tlsv1.2 https://sh.rustup.rs -sSf | sh
@@ -52,7 +51,7 @@ $ dfx identity new [OPTIONS] <NEW_IDENTITY>
 $ dfx identity use [OPTIONS] <IDENTITY>
 ```
 
-* Navigate into the canister cloned repository
+* Navigate into the canister cloned repository and issue the deploy command
 
 ```bash
 $ cd warehouse-reservations-canister
