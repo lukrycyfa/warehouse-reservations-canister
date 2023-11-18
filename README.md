@@ -57,6 +57,27 @@ $ dfx identity use [OPTIONS] <IDENTITY>
 $ cd warehouse-reservations-canister
 $ npm run gen-deploy
 ```
+
+* If you get permission errors after running `npm run gen-deploy`
+.
+
+```bash
+$ cd warehouse-reservations-canister
+$ chmod u+x did.sh or chmod +x did.sh 
+```
+if by any chance that you get error as :
+
+note: to keep the current resolver, specify `workspace.resolver = "1"` in the workspace root's manifest
+note: to use the edition 2021 resolver, specify `workspace.resolver = "2"` in the workspace root's manifest
+
+
+you can fix it by following the instruction and adding the `resolver ="2"` to the workspace root's manifest it is in the file `Cargo.toml` eg:
+
+        [workspace]
+        members = [
+            "src/warehouse_reservations_canister",
+        ]
+        resolver="2"
 - If you happen to run into any permission errors after running the above command issue this command below and re-run the `npm run gen-deploy` command again.
 
 ```bash
@@ -158,10 +179,10 @@ $ dfx canister call warehouse_reservations_canister make_reservations '( cid, pi
 $ dfx canister call warehouse_reservations_canister update_reservation '( rid, cid, record { 'description' = "reservation description";
  'reserve' = 10; })'
 ``` 
-- Cancle a reservation `(client_id, reservation_id) ~`
+- Cancel a reservation `(client_id, reservation_id) ~`
 
 ```bash
-dfx canister call warehouse_reservations_canister cancle_reservation '(cid, rid)'
+dfx canister call warehouse_reservations_canister cancel_reservation '(cid, rid)'
 ```
 - Delete a reservation `(client_id, reservation_id) ~`
 
@@ -173,3 +194,30 @@ $ dfx canister call warehouse_reservations_canister delete_reservation '(cid, ri
 ```bash
 dfx canister call warehouse_reservations_canister serve_reservation '(cid, rid, sid)'
 ```
+
+
+## Test Backend Canister via Candid Interface 
+
+ After running the command `npm run gen-deploy` at the end of succesful Installation of Canisters.
+ You will recieve a message showing:
+ The UI canister on the "local" network is "xxxxxxxxxxxxxxxxxxxxx"
+Installing code for canister warehouse_reservations_canister, with canister ID "yyyyyyyyyyyyyyyy"
+
+
+
+Deployed canisters.
+URLs:
+Backend canister via Candid interface:
+    Deployed canisters.
+URLs:
+
+
+
+
+ Backend canister via Candid interface:
+    warehouse_reservations_canister: http://127.0.0.1:4943/?canisterId=xxxxx-xxxxx-xxxxx-xxxxx-xxx&id=yyyyy-yyyyy-yyyyy-yyyyy-yyy
+
+```bash
+Where  xxxxxxx is the local network CanisterId yyyyyyyy is the id
+```
+Copy the URL address and access it on your browser

@@ -784,7 +784,7 @@ fn delete_product(pid: u64, sid:u64) -> Result<Product, Error> {
 
 //This function is called by a client to cancle valid reservation on the canister.
 #[ic_cdk::update]
-fn cancle_reservation(clid: u64, rid: u64) -> Result<Reservation, Error> {
+fn cancel_reservation(clid: u64, rid: u64) -> Result<Reservation, Error> {
     match _get_client(&clid) {
         // first look-up the memory for the presence of a client and reservation with the parsed id's and if present
         // make validations on the caller, reservation and finally remove the reservation from memory and make updates.
