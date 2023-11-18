@@ -65,25 +65,25 @@ $ npm run gen-deploy
 
 * Test via terminal
 
-- Get products (product_id, staff_id ) ~
+- Get products `(product_id, staff_id ) ~`
 
 ```bash
 $ dfx canister call warehouse_reservations_canister get_product '(pid,sid)'
 $ dfx canister call warehouse_reservations_canister get_products '()'
 ```
-- Get staffs (staff_id) ~
+- Get staffs `(staff_id) ~`
 
 ```bash
 $ dfx canister call warehouse_reservations_canister get_staff '(sid)'
 $ dfx canister call warehouse_reservations_canister get_staffs '(sid)'
 ```
-- Get reservations  (reservation_id) / (staff_id )` ~
+- Get reservations  `(reservation_id) / (staff_id ) ~`
 
 ```bash
 $ dfx canister call warehouse_reservations_canister get_reservation '(rid)'
 $ dfx canister call warehouse_reservations_canister get_reservations '(sid)'
 ```
-- Get clients (client_id) / (staff_id) ~
+- Get clients `(client_id) / (staff_id) ~`
 
 ```bash
 $ dfx canister call warehouse_reservations_canister get_client '(cid)'
@@ -95,13 +95,13 @@ $ dfx canister call warehouse_reservations_canister get_clients '(sid)'
 $ dfx canister call warehouse_reservations_canister add_staff '( record {'first_name' = 'string'; 
 'last_name' = 'string'; 'staff_address' = opt principal " "; })'
 ```
-- Update a profile (staff_id) ~
+- Update a profile `(staff_id) ~`
 
 ```bash
 $ dfx canister call warehouse_reservations_canister update_profile '( sid, record {'first_name' = "string"; 
 'last_name' = "string"; 'staff_address' = opt principal " "; })'
 ```
-- Delete a staff (staff_id) ~
+- Delete a staff `(staff_id) ~`
 
 ```bash
 $ dfx canister call warehouse_reservations_canister delete_staff '(sid)'
@@ -111,60 +111,60 @@ $ dfx canister call warehouse_reservations_canister delete_staff '(sid)'
 ```bash
 $ dfx canister call warehouse_reservations_canister add_client '(record {'first_name' = "string"; 'last_name' = "string";})'
 ```
-- Update a client (client_id) ~
+- Update a client `(client_id) ~`
 
 ```bash
 $ dfx canister call warehouse_reservations_canister update_client '( cid , record { 'first_name' = "string"; 'last_name' = "string";})'
 ```
-- Delete a client (client_id) ~
+- Delete a client `(client_id) ~`
 
 ```bash
 $ dfx canister call warehouse_reservations_canister delete_client '(cid)'
 ```
-- Add a product (staff_id) ~
+- Add a product `(staff_id) ~`
 
 ```bash
 $ dfx canister call warehouse_reservations_canister add_product '( sid, record { 'name'= "product name"; 'description' = "product description"; 'minimum_reservation' = 6; 'maximum_reservation' = 25; 'reservation_valid_duration' = 420000000000; 'price_per_item'= 90000; })'
 ```    
-- Update a product (product_id, staff_id) ~
+- Update a product `(product_id, staff_id) ~`
 
 ```bash
 $ dfx canister call warehouse_reservations_canister update_product '( pid, sid, record { 'name'= "product name"; 'description' = "product description updated"; 'minimum_reservation' = 8; 'maximum_reservation' = 27; 'reservation_valid_duration' = 520000000000; 'price_per_item'= 90000; })'
 ```   
 
-- Provision reservations (product_id, staff_id) ~
+- Provision reservations `(product_id, staff_id) ~`
 
 ```bash
 $ dfx canister call warehouse_reservations_canister provision_reservations '(pid, sid, record { 'reservations' = 95; })'
 ```
-- Delete a product (product_id, staff_id) ~
+- Delete a product `(product_id, staff_id) ~`
 
 ```bash
 $ dfx canister call warehouse_reservations_canister delete_product '(pid,sid)'
 ```
-- Make reservations ( client_id, product_id) ~
+- Make reservations `(client_id, product_id) ~`
 
 ```bash
 $ dfx canister call warehouse_reservations_canister make_reservations '( cid, pid, record { 'description' = "reservation description";
  'reserve' = 16; })'
 ``` 
-- Update a reservation (rservation_id, client_id) ~
+- Update a reservation `(rservation_id, client_id) ~`
 
 ```bash
 $ dfx canister call warehouse_reservations_canister update_reservation '( rid, cid, record { 'description' = "reservation description";
  'reserve' = 10; })'
 ``` 
-- Cancle a reservation (client_id, reservation_id) ~
+- Cancle a reservation `(client_id, reservation_id) ~`
 
 ```bash
 dfx canister call warehouse_reservations_canister cancle_reservation '(cid, rid)'
 ```
-- Delete a reservation (client_id, reservation_id) ~
+- Delete a reservation `(client_id, reservation_id) ~`
 
 ```bash
 $ dfx canister call warehouse_reservations_canister delete_reservation '(cid, rid)'
 ```
-- Serve a reservation (client_id, reservation_id, staff_id) ~
+- Serve a reservation `(client_id, reservation_id, staff_id) ~`
 
 ```bash
 dfx canister call warehouse_reservations_canister serve_reservation '(cid, rid, sid)'
