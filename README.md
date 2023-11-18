@@ -8,11 +8,10 @@
 
 * [node.js](https://nodejs.org/en/download). -v18 or >.
 
-* Download the canister contract from the provided repository 
+* Clone the canister contract from the provided repository 
 ```bash
 $ git clone https://github.com/lukrycyfa/warehouse-reservations-canister.git
 ```
-
 * rustc 1.64 or higher
 ```bash
 $ curl --proto '=https' --tlsv1.2 https://sh.rustup.rs -sSf | sh
@@ -52,12 +51,13 @@ $ dfx identity new [OPTIONS] <NEW_IDENTITY>
 $ dfx identity use [OPTIONS] <IDENTITY>
 ```
 
-* Navigate into the canister cloned repository
+* Navigate into the canister cloned repository and issue the deploy command
 
 ```bash
 $ cd warehouse-reservations-canister
 $ npm run gen-deploy
 ```
+
 * If you get permission errors after running `npm run gen-deploy`
 .
 
@@ -78,6 +78,11 @@ you can fix it by following the instruction and adding the `resolver ="2"` to th
             "src/warehouse_reservations_canister",
         ]
         resolver="2"
+- If you happen to run into any permission errors after running the above command issue this command below and re-run the `npm run gen-deploy` command again.
+
+```bash
+$ chmod +x did.sh
+```
 
 * After the canister is deployed on the internet computer replica, a link will be provided for you to interact with the canister via the candid interface provided.
 
