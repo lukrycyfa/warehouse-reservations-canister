@@ -58,7 +58,7 @@ $ dfx identity use [OPTIONS] <IDENTITY>
 $ cd warehouse-reservations-canister
 $ npm run gen-deploy
 ```
-- If you happen to run into any permission errors after running the above command issue this command below.
+- If you happen to run into any permission errors after running the above command issue this command below and re-run the `npm run gen-deploy` command again.
 
 ```bash
 $ chmod +x did.sh
