@@ -243,7 +243,6 @@ fn get_product(id: u64, sid: u64) -> Result<Product, Error> {
         Some(staff) => {
             let owner = OWNER.with(|s| s.get());
             let _ = _ifvalid(&(staff.staff_address == Some(caller()) || owner == caller()), "Unauthorized Operation For Caller".to_string())?;
-            clear_invalid_requests(&id)?;
             match _get_product(&id) {
                 Some(product) => {
                     Ok(product)},
@@ -373,8 +372,8 @@ fn add_staff(staff: StaffPayload) -> Result<Staff, Error> {
     // finally create a staff with the payload.
     let owner = OWNER.with(|s| s.get());
     let _ = _ifvalid(&(owner == caller()), "Unauthorized Operation For Caller".to_string())?;
-    let __ = _ifvalid(&(staff.staff_address.is_some() && staff.first_name.len() > 0 &&
-        staff.last_name.len() > 0), "Invalid Input Provided".to_string())?; 
+    let __ = _ifvalid(&(staff.staff_address.is_some() && staff.first_name.trim().len() > 0 &&
+        staff.last_name.trim().len() > 0), "Invalid Input Provided".to_string())?; 
     let staffrole = Roles::Specialist;
     match add_profile(staff, staffrole) {
         Some(staff) => Ok(staff),
@@ -404,7 +403,7 @@ fn add_profile(staff: StaffPayload, role:Roles) -> Option<Staff> {
 #[ic_cdk::update]
 fn add_client(client: ClientPayload) -> Result<Client, Error> {
     // increment the id counter to get an id and validate inputs
-    let __ = _ifvalid(&(client.first_name.len() > 0 && client.last_name.len() > 0), "Invalid Input Provided".to_string())?;
+    let __ = _ifvalid(&(client.first_name.trim().len() > 0 && client.last_name.trim().len() > 0), "Invalid Input Provided".to_string())?;
     let id = ID_COUNTER.with(|counter| {
         let current_value = *counter.borrow().get();
         counter.borrow_mut().set(current_value + 1)}).expect("cannot increment id counter");
@@ -425,7 +424,7 @@ fn add_product(sid: u64, product: ProductPayload) -> Result<Product, Error> {
     match _get_staff(&sid) {
         Some(staff) => {
             let _ = _ifvalid(&(staff.staff_address == Some(caller())), "Unauthorized Operation For Caller".to_string())?;
-            let _ = _ifvalid(&(product.name.len() > 0 && product.description.len() > 0 && product.minimum_reservation > 0  && 
+            let _ = _ifvalid(&(product.name.trim().len() > 0 && product.description.trim().len() > 0 && product.minimum_reservation > 0  && 
             product.maximum_reservation > product.minimum_reservation && product.price_per_item > 0 && 
             product.reservation_valid_duration > 0), "Invalid Input Provided".to_string())?;
             let id = ID_COUNTER
@@ -486,7 +485,7 @@ fn make_reservations(clid: u64, pid: u64, payload: ReservationPayload) -> Result
             match _get_product(&pid) {
                 Some(mut product) => {
                    let _ = _ifvalid(&(product.maximum_reservation >= payload.reserve && payload.reserve >= product.minimum_reservation 
-                    && payload.description.len() > 0),"Invalid Payload For Reservations".to_string())?;
+                    && payload.description.trim().len() > 0),"Invalid Payload For Reservations".to_string())?;
                    let __ = _ifvalid(&(product.reservations - payload.reserve > 0),
                         "Insufficent Product In Reserve For Reservations".to_string())?;
                     let id = ID_COUNTER.with(|counter| {let current_value = *counter.borrow().get();
@@ -582,8 +581,8 @@ fn update_profile(id: u64, payload: StaffPayload) -> Result<Staff, Error> {
     match _get_staff(&id) {
         Some(mut staff) => {
             let _ = _ifvalid(&(Some(caller()) == staff.staff_address), "Unauthorized Operation For Caller".to_string())?;
-            let __ = _ifvalid(&(payload.staff_address.is_some() && payload.first_name.len() > 0 &&
-            payload.last_name.len() > 0), "Invalid Input Provided".to_string())?;
+            let __ = _ifvalid(&(payload.staff_address.is_some() && payload.first_name.trim().len() > 0 &&
+            payload.last_name.trim().len() > 0), "Invalid Input Provided".to_string())?;
             staff.first_name = payload.first_name;
             staff.last_name = payload.last_name;
             staff.staff_address = payload.staff_address;
@@ -604,7 +603,7 @@ fn update_client(id: u64, payload: ClientPayload) -> Result<Client, Error> {
     match _get_client(&id) {
         Some(mut client) => {
             let _ = _ifvalid(&(client.client_address == Some(caller())), "Unauthorized Operation For Caller".to_string())?;
-            let __ = _ifvalid(&(payload.first_name.len() > 0 && payload.last_name.len() > 0), "Invalid Input Provided".to_string())?;
+            let __ = _ifvalid(&(payload.first_name.trim().len() > 0 && payload.last_name.trim().len() > 0), "Invalid Input Provided".to_string())?;
             client.first_name = payload.first_name;
             client.last_name = payload.last_name;
             client.updated_at = Some(time());
@@ -624,7 +623,7 @@ fn update_product(pid: u64, sid: u64, payload: ProductPayload) -> Result<Product
     match _get_staff(&sid) {
         Some(staff) => {
             let _ = _ifvalid(&(staff.staff_address == Some(caller())), "Unauthorized Operation For Caller".to_string())?;
-            let _ = _ifvalid(&(payload.name.len() > 0 && payload.description.len() > 0 && payload.minimum_reservation > 0  && 
+            let _ = _ifvalid(&(payload.name.trim().len() > 0 && payload.description.trim().len() > 0 && payload.minimum_reservation > 0  && 
             payload.maximum_reservation > payload.minimum_reservation && payload.price_per_item > 0 && 
             payload.reservation_valid_duration > 0), "Invalid Input Provided".to_string())?;
             match _get_product(&pid) {
@@ -664,7 +663,7 @@ fn update_reservation(rid: u64, cid: u64, payload: ReservationPayload) -> Result
                     match _get_product(&reservation.product_id){
                         Some(mut product) => {
                             let ___ = _ifvalid(&(product.maximum_reservation >= payload.reserve && payload.reserve >= product.minimum_reservation
-                            && payload.description.len() > 0),"Invalid Payload For Reservations".to_string())?;
+                            && payload.description.trim().len() > 0),"Invalid Payload For Reservations".to_string())?;
                             let ____ = _ifvalid(&((product.reservations + reservation.reserve) - payload.reserve > 0 ),
                             "Insufficent Product In Reserve For Reservations".to_string())?;
                             product.reservations  = product.reservations + reservation.reserve - payload.reserve;
@@ -784,7 +783,7 @@ fn delete_product(pid: u64, sid:u64) -> Result<Product, Error> {
 
 //This function is called by a client to cancle valid reservation on the canister.
 #[ic_cdk::update]
-fn cancle_reservation(clid: u64, rid: u64) -> Result<Reservation, Error> {
+fn cancel_reservation(clid: u64, rid: u64) -> Result<Reservation, Error> {
     match _get_client(&clid) {
         // first look-up the memory for the presence of a client and reservation with the parsed id's and if present
         // make validations on the caller, reservation and finally remove the reservation from memory and make updates.
@@ -874,11 +873,11 @@ enum Error {
 #[derive(candid::CandidType, Deserialize, Clone, Serialize, PartialEq)]
 enum Roles { Specialist }
 
-//A helper function to clear invalid requests and update state to a product, when getting the product, making reservation to
-// or updating reservation the product
+//A helper function to clear invalid requests and update state of a product, when a making reservation to
+// or updating a reservation of the product
 fn clear_invalid_requests(id: &u64) -> Result<(), Error> {
     // first look-up the memory for the presence of a product with the parsed id and if present
-    // loop throug the reservations, remove invalid reservations and update the product.
+    // loop through the reservations, remove invalid reservations and update the product.
     match _get_product(&id) {
         Some(mut product) => {
             let mut newvec: Vec<Reservation> = vec![];
